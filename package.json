@@ -1,6 +1,6 @@
 {
   "name": "bigweldjs",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha",
   "description": "See a need, fill a need!",
   "main": "js/main.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
-  "author": "",
+  "author": "alpoi",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^13.6.0",
