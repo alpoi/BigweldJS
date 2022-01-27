@@ -1,0 +1,531 @@
+/* ---------------------------==≡{ UNIVERSAL }≡==--------------------------- */
+
+:root {
+    --background-primary: rgb(64, 68, 75);
+    --background-secondary: rgb(54, 57, 63);
+    --background-tertiary: rgb(41, 43, 47);
+    --background-alternate: rgb(47, 49, 54);
+    --title-border: rgb(46, 57, 55);
+    --dark-blurple: rgb(78, 93, 148);
+    --light-blurple: rgb(114, 137, 218);
+    --font-primary: rgb(220, 221, 222);
+    --font-faded: rgb(97, 100, 107);
+    --stop-lite: rgb(255, 103, 102);
+    --stop-primary: rgb(116, 32, 34);
+    --go-lite: rgb(0, 100, 0);
+    --go-primary: rgb(1, 75, 1);
+    --background-modal: rgba(0, 0, 0, 0.4);
+    --border-primary: rgb(32, 34, 37);
+    --border-active: rgb(0, 175, 244);
+    --palette-1-light: rgb(220, 226, 226);
+    --palette-1-dark: rgb(145, 149, 149);
+    --palette-2-lighter: rgb(84, 238, 197);
+    --palette-2-light: rgb(58, 166, 138);
+    --palette-2-dark: rgb(31, 89, 74);
+    --palette-2-darker: rgb(21, 61, 51);
+    --palette-3-light: rgb(214, 68, 57);
+    --palette-3-dark: rgb(137, 43, 36);
+    --palette-4-light: rgb(240, 182, 52);
+    --palette-4-dark: rgb(163, 123, 35);
+    --palette-5-light: rgb(34, 49, 66);
+    --palette-5-dark: rgb(26, 38, 51);
+}
+
+body {
+    background-color: var(--background-tertiary);
+    font-family: 'Open Sans', sans-serif;
+    color: var(--font-primary);
+    padding: none;
+}
+
+.outer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+a {
+    text-decoration: none;
+    color: var(--dark-blurple);
+}
+
+a:hover {
+    color: var(--light-blurple);
+    cursor: pointer;
+}
+
+input {
+    background-color: var(--background-primary);
+    border-radius: 8px;
+    border: 1px solid var(--border-primary);
+    color: var(--font-primary);
+    padding: 5px;
+    margin: 3px;
+}
+
+input::placeholder {
+    color: var(--font-faded);
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid var(--border-active);
+}
+
+.fieldset {
+    flex: 0 0 auto;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #42454a;
+}
+
+/* ---------------------------==≡{ SCROLLBAR }≡==--------------------------- */
+
+.scrollable {
+    overflow-y: scroll;
+}
+
+.scrollable::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+}
+
+.scrollable::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background-color: #202225;
+    border-radius: 4px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+    background-color: #2f3136;
+    width: 8px;
+    border-radius: 4px;
+
+}
+
+/* -----------------------------==≡{ MODAL }≡==----------------------------- */
+
+#modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    justify-content: center;
+    z-index: 1;
+    background-color: var(--background-modal);
+}
+
+#modalContent {
+    text-align: center;
+    margin-top: 10%;
+    padding: 40px;
+    width: 300px;
+    height: min-content;
+    background-color: var(--background-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 20px;
+    box-shadow: 3px 3px 3px var(--border-primary);
+}
+
+/* ----------------------------==≡{ BUTTONS }≡==---------------------------- */
+
+#buttonProceed {
+    width: 100px;
+    height: 50px;
+    padding: 10px 0;
+    margin: 5px;
+    color: var(--font-primary);
+    border: 1px solid var(--light-blurple);
+    background-color: var(--dark-blurple);
+    border-radius: 8px;
+    transition: background-color 0.2s linear;
+}
+
+#buttonProceed:hover {
+    border: 1px solid var(--dark-blurple);
+    background-color: var(--light-blurple);
+    cursor: pointer;
+}
+
+#buttonOK {
+    width: 100px;
+    padding: 10px 0;
+    margin: 20px;
+    color: var(--font-primary);
+    border: 1px solid var(--go-primary);
+    background-color: var(--go-lite);
+    border-radius: 8px;
+}
+
+#buttonCancel {
+    width: 100px;
+    padding: 10px 0;
+    margin: 20px;
+    color: var(--font-primary);
+    border: 1px solid var(--stop-primary);
+    background-color: var(--stop-lite);
+    border-radius: 8px;
+}
+
+#buttonOK:hover {
+    border: 1px solid var(--go-lite);
+    background-color: var(--go-primary);
+    cursor: pointer;
+}
+
+#buttonCancel:hover {
+    border: 1px solid var(--stop-lite);
+    background-color: var(--stop-primary);
+    cursor: pointer;
+}
+
+/* --------------------------==≡{ LOGIN HEADER }≡==------------------------- */
+
+#header {
+    position: relative;
+    margin-bottom: 0px;
+    margin-top: -60px;
+}
+
+#header h1 {
+    font-family: 'Comfortaa', cursive;
+    font-size: 2.5em;
+    font-weight: 700;
+    text-shadow: 1px 1px 0 var(--title-border),
+                 -1px 1px 0 var(--title-border),
+                 1px -1px 0 var(--title-border),
+                 -1px -1px 0 var(--title-border),
+                 0px 1px 0 var(--title-border),
+                 0px -1px 0 var(--title-border),
+                 -1px 0px 0 var(--title-border),
+                 1px 0px 0 var(--title-border),
+                 2px 2px 0 var(--title-border),
+                 -2px 2px 0 var(--title-border),
+                 2px -2px 0 var(--title-border),
+                 -2px -2px 0 var(--title-border),
+                 0px 2px 0 var(--title-border),
+                 0px -2px 0 var(--title-border),
+                 -2px 0px 0 var(--title-border),
+                 2px 0px 0 var(--title-border),
+                 1px 2px 0 var(--title-border),
+                 -1px 2px 0 var(--title-border),
+                 1px -2px 0 var(--title-border),
+                 -1px -2px 0 var(--title-border),
+                 2px 1px 0 var(--title-border),
+                 -2px 1px 0 var(--title-border),
+                 2px -1px 0 var(--title-border),
+                 -2px -1px 0 var(--title-border);
+    position: relative;
+    margin-top: -50px;
+}
+
+#header img {
+    width: 150px;
+    position: relative;
+    filter: drop-shadow(2px 2px 2px var(--border-primary)) 
+            drop-shadow(-2px -2px 2px var(--border-primary));
+}
+
+.inner#login {
+    text-align: center;
+    margin-top: 10%;
+    padding: 1.5em;
+    max-width: 25em;
+    min-width: 25em;
+    background-color: var(--background-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 20px;
+    box-shadow: 3px 3px 3px var(--border-primary);
+}
+
+/* --------------------------==≡{ ADDBOT FORM }≡==-------------------------- */
+
+form#addBot input {
+    width: 322px;
+}
+
+form#addBot input.small {
+    width: 150px;
+}
+
+form#addBot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+form#addBot button {
+    margin: 3px;
+    height: 58px;
+    width: 58px;
+    background-color: var(--dark-blurple);
+    border: 1px solid var(--light-blurple);
+    font-family: 'Open Sans', sans-serif;
+    color: var(--font-primary);
+    border-radius: 8px;
+    transition: background-color 0.2s linear;
+}
+
+form#addBot button:hover {
+    background-color: var(--light-blurple);
+    border-color: var(--dark-blurple);
+    cursor: pointer;
+}
+
+/* ----------------------------==≡{ BOT LIST }≡==--------------------------- */
+
+.bot {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 48px;
+    background-color: var(--background-tertiary);
+    box-shadow: 1px 1px 1px var(--border-primary);
+    margin: 4px;
+    border-radius: 5px;
+    transition: background-color 0.2s linear;
+    cursor: pointer;
+}
+
+.bot.delete {
+    background-color: var(--stop-lite) !important;
+    box-shadow: 1px 1px 1px var(--stop-primary);
+}
+
+.bot.selected {
+    background-color: var(--dark-blurple) !important;
+    box-shadow: 1px 1px 1px #3d4872;
+    transition: background-color 0.2s linear, box-shadow 0.2s linear;
+}
+
+.bot.selected:hover {
+    background-color: var(--light-blurple) !important;
+    box-shadow: 1px 1px 1px var(--dark-blurple);
+}
+
+.bot:hover {
+    color: #fff;
+    background-color: #202225;
+}
+
+.botImg {
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    margin: 0 16px;
+}
+
+.botName {
+    height: 48px;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.placeholder {
+    border-radius: 5px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.botDelete {
+    border-radius: 5px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.botDelete:hover {
+    background-color: #b42f31;
+    box-shadow: 1px 1px 1px var(--stop-primary);
+    cursor: pointer;
+}
+
+#botList {
+    height: 0px;
+}
+
+/* ----------------------------==≡{ NAV BAR }≡==---------------------------- */
+
+#indexNavigation {
+    margin: none;
+    position: fixed;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-bottom: 0px;
+    background-color: var(--background-tertiary);
+    box-shadow: inset 0 -7px 0 0 var(--background-primary);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    top: 0;
+    left: 0;
+}
+
+.navOption {
+    width: 100px;
+    padding: 30px;
+    clip-path: inset(0px 0px -15px 0px);
+    border-bottom: 5px solid transparent;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: var(--background-tertiary);
+    flex-grow: 5;
+    transition: border-bottom-width 0.1s linear,
+                margin-top 0.1s linear,
+                border-bottom-left-radius 0.1s linear,
+                border-bottom-right-radius 0.1s linear;
+}
+
+.navOption:hover {
+    background-color: var(--border-primary);
+    margin-top: 5px;
+    border-bottom-width: 10px !important;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.navOption.selected {
+    background-color: var(--border-primary);
+    margin-top: 5px;
+    border-bottom-width: 10px !important;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    font-weight: bold;
+}
+
+.navOption.selected:hover {
+    cursor: default;
+}
+
+#navBack {
+    width: 30px;
+    border-color: var(--palette-1-light);
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+#navBot {
+    border-color: var(--palette-2-light);
+}
+
+#navGuilds {
+    border-color: var(--palette-3-light);
+}
+
+#navCommands {
+    border-color: var(--palette-4-light);
+}
+
+#navEmbeds {
+    border-color: var(--palette-5-light);
+}
+
+#navBack.selected {
+    background-color: var(--palette-1-dark);
+}
+
+#navBot.selected {
+    background-color: var(--palette-2-dark);
+}
+
+#navGuilds.selected {
+    background-color: var(--palette-3-dark);
+}
+
+#navCommands.selected {
+    background-color: var(--palette-4-dark);
+}
+
+#navEmbeds.selected {
+    background-color: var(--palette-5-dark);
+}
+
+#navBack.selected:hover {
+    background-color: var(--palette-1-dark);
+}
+
+#navBot.selected:hover {
+    background-color: var(--palette-2-dark);
+}
+
+#navGuilds.selected:hover {
+    background-color: var(--palette-3-dark);
+}
+
+#navCommands.selected:hover {
+    background-color: var(--palette-4-dark);
+}
+
+#navEmbeds.selected:hover {
+    background-color: var(--palette-5-dark);
+}
+
+.outer.index {
+    margin-top: 100px;
+}
+
+/* -----------------------------==≡{ INDEX }≡==----------------------------- */
+
+body.index {
+    background-color: var(--background-primary);
+}
+
+/* --------------------------==≡{ BACK CONTENT }≡==------------------------- */
+
+#botOfflineText {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px dashed var(--palette-1-dark);
+    background-color: var(--palette-1-light);
+    border-radius: 10px;
+}
+
+#contentBack {
+    text-align: center;
+}
+
+/* --------------------------==≡{ BOT CONTENT }≡==-------------------------- */
+
+#botButtonContainer {
+    text-align: center;
+}
+
+#botButton {
+    color: var(--palette-2-darker);
+    padding: 20px;
+    border: 1px solid var(--palette-2-dark);
+    background-color: var(--palette-2-light);
+    border-radius: 10px;
+}
+
+#botButton:hover {
+    color: var(--palette-2-lighter);
+    border: 1px solid var(--palette-2-light);
+    background-color: var(--palette-2-dark);
+}

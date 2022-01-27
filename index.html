@@ -1,0 +1,111 @@
+<!DOCTYPE html><html>
+<head>
+    <title>BigweldJS • Index</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Open+Sans:wght@400&display=swap">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="index">
+    <div id="indexNavigation">
+        <div class="navOption" id="navBack"> &lt; </div>
+        <div class="navOption" id="navBot"> Bot </div>
+        <div class="navOption" id="navGuilds"> Guilds </div>
+        <div class="navOption" id="navCommands"> Commands </div>
+        <div class="navOption" id="navEmbeds"> Embeds </div>
+    </div>
+
+    <div class="outer index hidden" id="contentBack">
+        <div class="inner">
+
+            <p><span id="botOfflineText">
+                <a href="login.html">Click to return to the login screen.</a>
+            </span></p>
+
+            <p><span id="botOnlineText" class="hidden">
+                Please kill the bot before returning to the login screen.
+            </span></p>
+
+        </div>
+    </div>
+
+
+    <div class="outer index" id="contentBot">
+        <div class="inner">
+            <p>
+                Will display bot related information.
+            </p>
+            <ul>
+                <li>Bot name</li>
+                <li>Bot image</li>
+                <li>Bot console</li>
+                <li>... and more</li>
+            </ul>
+            <p>For now, proof of concept (Ctrl+Shift+I to see dev tools):</p>
+            <div id="botButtonContainer">
+                <button id="botButton">Start Bot</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="outer index hidden" id="contentGuilds">
+        <div class="inner">
+
+            <p>
+                Will show a list of guilds your bot is in, and information about them.
+            </p>
+            <ul>
+                <li>Guild name</li>
+                <li>Guild image</li>
+                <li>Guild members</li>
+                <li>Guild commands</li>
+                <li>... and more</li>
+            </ul>
+
+        </div>
+    </div>
+
+
+    <div class="outer index hidden" id="contentCommands">
+        <div class="inner">
+
+            <p>
+                Will show a list of commands for your bot.
+            </p>
+            <ul>
+                <li>command.js file 'install'</li>
+                <li>command.js source code</li>
+                <li>optional command.md description</li>
+                <li>command author</li>
+                <li>command contexts</li>
+            </ul>
+
+
+        </div>
+    </div>
+
+
+    <div class="outer index hidden" id="contentEmbeds">
+        <div class="inner">
+
+            <p>
+                Will show embed utilities
+            </p>
+            <ul>
+                <li>embed creation tools</li>
+                <li>embed visualisation</li>
+                <li>embed saving/loading locally</li>
+                <li>send embed to selected guild channel(s)</li>
+            </ul>
+
+
+        </div>
+    </div>
+
+
+    <script src="js/index.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html><html>
+<head>
+    <title>BigweldJS • Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Open+Sans:wght@400&display=swap">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div id="modal" class="hidden">
+        <div id="modalContent">
+            <h1 id="modalTitle"></h1>
+            <p id="modalMsg"></p>
+            <button id="buttonOK">OK</button>
+            <button id="buttonCancel">Cancel</button>
+        </div>
+    </div>
+    <div class="outer">
+        <div class="inner" id="login">
+            <div id="header"><img src="img/bigweldWeb.svg">
+            <h1>BigweldJS</h1>
+            </div>
+            <hr>
+            <div id="botList">
+                <!-- loaded from config -->
+            </div>
+            <hr>
+            <div id="botNew">
+                <form id="addBot">
+                    <div class="fieldset">
+                        <input class="small" type="text" id="botNameInput" placeholder="Bot name">
+                        <input class="small" type="password" id="botClientInput" placeholder="Client ID"><br>
+                        <input type="password" id="botTokenInput" placeholder="Bot token">
+                    </div>
+                    <div class="fieldset">
+                        <button type="submit">New Bot</button>
+                    </div>
+                </form>
+            </div>
+            <div id="proceed" class="hidden">
+                <hr>
+                <button id="buttonProceed">Proceed</button>
+            </div>
+            <hr>
+            <p>To use this program, you must have a Bot token and Client ID from the 
+                <a onclick="window.api.openExternal('https://discord.com/developers/applications/')">Discord Developer Portal</a>.
+            </p>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>
