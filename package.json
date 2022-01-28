@@ -6,13 +6,13 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "dist": "electron-builder --win=portable"
   },
   "author": "alpoi",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^13.6.0",
-    "electron-squirrel-startup": "^1.0.0"
+    "discord.js": "^13.6.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.63",
@@ -20,19 +20,34 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "electron-builder": "^22.14.5",
     "electron": "^16.0.7"
+  },
+  "build": {
+      "win": {
+        "icon": "icon.ico"
+      },
+      "files": ["!.github" , "!bots", "!config.json", "!dist", "!README.md"]
   },
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "build/icon.png"
+        "overwrite": true,
+        "packageManager": "npm",
+        "icon": "icon.ico",
+        "ignore": [
+          "^(/\\.github$)",
+          ".gitignore",
+          "^(/bots$)",
+          "package-lock\\.json",
+          "config\\.json",
+          "^(/README.md$)"
+        ]
       },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "bigweldjs"
-          }
+          "config": {}
         },
         {
           "name": "@electron-forge/maker-zip",
