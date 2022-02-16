@@ -1,4 +1,4 @@
-console.log("[PRE] preload.js started.");
+console.log("[PRELOAD] preload.js started.");
 
 const p                                        = require('path');
 const fs                                       = require('fs');
@@ -8,6 +8,7 @@ const configPath                               = p.join(bigweldRoot, 'config.jso
 
 contextBridge.exposeInMainWorld(
     'api', {
+        invoke: invoke,
         toMainSync: toMainSync,
         toMain: toMain,
         fromMain: fromMain,
@@ -21,6 +22,10 @@ contextBridge.exposeInMainWorld(
         createCommands: createCommands,
     }
 );
+
+function invoke(channel, ...args) {
+    ipcRenderer.invoke(channel, ...args);
+}
 
 function toMainSync(channel, message) {
     ipcRenderer.sendSync(channel, message);
@@ -133,5 +138,5 @@ function relPathToAbsPaths(path) {
 }
 
 
-console.log("[PRE] window.api successfully exposed.")
-console.log("[PRE] preload.js completed.");
+console.log("[PRELOAD] window.api successfully exposed.")
+console.log("[PRELOAD] preload.js completed.");

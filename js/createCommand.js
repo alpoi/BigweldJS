@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-let cf = window.api.config;
+let cf = window.api.getConfig();
 
 let guildSelect = document.getElementById('guildSelect');
 let commandFile = document.getElementById('commandFile')

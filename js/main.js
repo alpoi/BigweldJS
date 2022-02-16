@@ -1,6 +1,6 @@
-const { app, BrowserWindow, ipcMain }   = require('electron');
-const path                              = require('path');
-const { Client, Intents }               = require('discord.js');
+const { app, BrowserWindow, ipcMain, dialog }   = require('electron');
+const path                                      = require('path');
+const { Client, Intents }                       = require('discord.js');
 
 let mainWindow;
 let activeBot = '';
@@ -8,9 +8,9 @@ let activeBotClient;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 720,
-        minWidth: 600,
-        height: 720,
+        width: 700,
+        minWidth: 700,
+        height: 700,
         minHeight: 700,
         icon: path.join(__dirname, '../bigweld.png'),
         backgroundColor: '#292b2f',
@@ -23,6 +23,17 @@ function createWindow() {
     mainWindow.setMenuBarVisibility(false);
     mainWindow.setIcon(path.join(__dirname, '../bigweld.png'));
     mainWindow.loadFile(path.join(__dirname, '../login.html'));
+}
+
+function createAlertModal(title, message, type = "none") {
+    dialog.showMessageBox(
+        mainWindow, { 
+            message: message,
+            type: type,
+            buttons: ['OK'],
+            defaultId: 0,
+            title: title,
+        })
 }
 
 ipcMain.on('set-activeBot', (event, arg) => {
@@ -51,6 +62,21 @@ ipcMain.on('kill-bot', (event, arg) => {
     activeBotClient = killBot();
 });
 
+
+function getBotInfo(client) {
+    console.log(client);
+    console.log(client.guilds.cache);
+    const botInfo = {
+        "avatarURL": "https://cdn.discordapp.com/avatars/" 
+                    + client.user.id + "/" + client.user.avatar + ".png",
+        "id": client.user.id,
+        "discriminator": client.user.discriminator,
+        "username": client.user.username,
+        "readyAt": client.readyAt
+    };
+    return botInfo;
+}
+
 function startBot(botObj) {
     mainWindow.webContents.send('to-console', `[MAIN] starting ${activeBot}.`);
     const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
@@ -59,14 +85,35 @@ function startBot(botObj) {
             'to-console', 
             `[MAIN] ${activeBot} is ready.`
         );
+        mainWindow.webContents.send(
+            'get-bot-info',
+            getBotInfo(client)
+        )
     });
-    client.login(botObj.token);
 
+    client.login(botObj.token).catch( (err) => {
+        mainWindow.webContents.send(
+            'error-to-console',
+            `[ERROR] ${err}`
+        );
+        mainWindow.webContents.send(
+            'invalid-token',
+            null
+        )
+        createAlertModal("Error", 
+                         "Invalid bot token. Returning to the login screen.", 
+                         "error");
+        killBot();
+        return;
+    });
+    
     return client;
 }
 
 function killBot() {
-    activeBotClient.destroy()
+    if (!activeBotClient) { return null; }
+
+    activeBotClient.destroy();
     mainWindow.webContents.send(
         'to-console',
         `[MAIN] killed ${activeBot}.`

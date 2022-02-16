@@ -512,6 +512,7 @@ body.index {
 
 /* --------------------------==≡{ BOT CONTENT }≡==-------------------------- */
 
+
 #botButtonContainer {
     text-align: center;
 }
@@ -528,4 +529,54 @@ body.index {
     color: var(--palette-2-lighter);
     border: 1px solid var(--palette-2-light);
     background-color: var(--palette-2-dark);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#botButton.online {
+    color: var(--stop-primary);
+    border-color: var(--stop-primary);
+    background-color: var(--stop-lite);
+}
+
+#botButton.online:hover {
+    color: var(--stop-lite);
+    border-color: var(--stop-lite);
+    background-color: var(--stop-primary);
+}
+
+#botInfo {
+    display: flex;
+    border-left: 7px solid var(--border-primary);
+    width: 600px;
+    border-radius: 10px;
+    background-color: var(--background-tertiary);
+    align-items: center;
+    margin: 10px;
+    box-shadow: 1px 1px 1px var(--border-primary);
+}
+
+#botAvatarContainer {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 20px;
+}
+
+#botTextContainer {
+    margin: 20px;
+}
+
+#botInfo .avatar {
+    width: 128px;
+    height: 128px;
+    border-radius: 64px;
+    border: 1px solid var(--border-primary);
+}
+
+#botInfo p {
+    margin: 0px;
+}
+
+#botInfo h1 {
+    margin: 0px;
 }
