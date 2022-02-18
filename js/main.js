@@ -91,7 +91,12 @@ function startBot(botObj) {
         )
     });
 
-    client.login(botObj.token).catch( (err) => {
+    client.login(botObj.token).then( () => {
+        mainWindow.webContents.send(
+            'bot-online',
+            null
+        );
+    })    .catch( (err) => {
         mainWindow.webContents.send(
             'error-to-console',
             `[ERROR] ${err}`

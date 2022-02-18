@@ -29,6 +29,15 @@
     --palette-4-dark: rgb(163, 123, 35);
     --palette-5-light: rgb(34, 49, 66);
     --palette-5-dark: rgb(26, 38, 51);
+    --error-text: rgb(255, 128, 128);
+    --error-bgd: rgb(41, 0, 0);
+    --error-border: rgb(92, 0, 0);
+    --warn-text: rgb(242, 171, 38);
+    --warn-bgd: rgb(51, 43, 0);
+    --warn-border: rgb(102, 85, 0);
+    --success-text: rgb(128, 255, 128);
+    --success-bgd: rgb(0, 41, 0);
+    --success-border: rgb(0, 92, 0);
 }
 
 body {
@@ -42,6 +51,7 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-content: center;
 }
 
 .hidden {
@@ -512,14 +522,116 @@ body.index {
 
 /* --------------------------==≡{ BOT CONTENT }≡==-------------------------- */
 
+#botInfoContainer {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
 
-#botButtonContainer {
-    text-align: center;
+#botInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-left: 7px solid var(--border-primary);
+    width: 90%;
+    height: 80vh;
+    border-radius: 10px;
+    background-color: var(--background-tertiary);
+    align-content: stretch;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    box-shadow: 1px 1px 1px var(--border-primary);
+}
+
+#botInfoHeader {
+    display: flex;
+    justify-content: center;
+}
+
+#botAvatarContainer {
+    height: 134px;
+    margin: 20px;
+}
+
+#botTextContainer {
+    height: 134px;
+    margin: 20px;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+#botInfo .avatar {
+    width: 128px;
+    height: 128px;
+    border-radius: 64px;
+    border: 1px solid var(--border-primary);
+}
+
+#botInfo p {
+    margin: 0px;
+}
+
+#botInfo h1 {
+    margin: 0px;
+}
+
+#botConsole {
+    font-family: Consolas, Monaco, Lucida Console, Liberation Mono, 
+                 DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;
+    background-color: rgb(47, 49, 54);
+    color: rgb(185, 187, 190);
+    border-radius: 5px;
+    border: 1px solid var(--border-primary);
+    width: 90%;
+    overflow-y: scroll;
+    flex-grow: 1;
+}
+
+#botConsole p {
+    padding: 0 5px 0 5px;
+    border-left: 1px solid rgb(185, 187, 190);
+    border-right: 1px solid rgb(185, 187, 190);
+}
+
+#botConsole:first-child {
+    padding-top: 5px;
+    border-radius: 5px;
+}
+
+#botConsole:last-child {
+    padding-bottom: 5px;
+}
+
+#botConsole .success {
+    color: var(--success-text);
+    background: var(--success-bgd);
+    border-left: 1px solid var(--success-border);
+    border-right: 1px solid var(--success-border);
+}
+
+#botConsole .error {
+    color: var(--error-text);
+    background: var(--error-bgd);
+    border-left: 1px solid var(--error-border);
+    border-right: 1px solid var(--error-border);
+}
+
+#botConsole .warn {
+    color: var(--warn-text);
+    background: var(--warn-bgd);
+    border-left: 1px solid var(--warn-border);
+    border-right: 1px solid var(--warn-border);
 }
 
 #botButton {
+    width: 90%;
+    margin: 10px;
+    padding: 15px 0 15px 0;
     color: var(--palette-2-darker);
-    padding: 20px;
     border: 1px solid var(--palette-2-dark);
     background-color: var(--palette-2-light);
     border-radius: 10px;
@@ -543,40 +655,4 @@ body.index {
     color: var(--stop-lite);
     border-color: var(--stop-lite);
     background-color: var(--stop-primary);
-}
-
-#botInfo {
-    display: flex;
-    border-left: 7px solid var(--border-primary);
-    width: 600px;
-    border-radius: 10px;
-    background-color: var(--background-tertiary);
-    align-items: center;
-    margin: 10px;
-    box-shadow: 1px 1px 1px var(--border-primary);
-}
-
-#botAvatarContainer {
-    flex-grow: 0;
-    flex-shrink: 0;
-    margin: 20px;
-}
-
-#botTextContainer {
-    margin: 20px;
-}
-
-#botInfo .avatar {
-    width: 128px;
-    height: 128px;
-    border-radius: 64px;
-    border: 1px solid var(--border-primary);
-}
-
-#botInfo p {
-    margin: 0px;
-}
-
-#botInfo h1 {
-    margin: 0px;
 }

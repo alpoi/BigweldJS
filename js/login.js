@@ -297,5 +297,6 @@ botList.addEventListener('mouseout', unhoverDelete);
 botList.addEventListener('click', confirmDelete);
 botList.addEventListener('click', selectBot)
 addBot.addEventListener('submit', addNewBot);
-proceed.addEventListener('click', clickProceed);
+document.getElementById('buttonProceed')
+        .addEventListener('click', clickProceed);
 window.addEventListener('beforeunload', () => window.api.saveConfig(cf));

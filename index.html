@@ -31,18 +31,29 @@
 
 
     <div class="outer index" id="contentBot">
-        <div class="inner">
-            <div id="botInfo">
-
-            </div>
+        <div class="inner" id="botInfoContainer">
             
-            <div id="botButtonContainer">
+            <div id="botInfo">
+                <div id="botInfoHeader" class="hidden">
+                    <div id="botAvatarContainer">
+                        <img id="botInfoAvatar" class="avatar" src="#">
+                    </div>
+                    <div id="botTextContainer">
+                        <h1 id="botInfoUsername">username</h1>
+                        <p id="botInfoID">id</p>
+                        <p id="onlineIndicator">online indicator</p>
+                    </div>
+                </div>
+
+                <div id="botConsole" class="scrollable hidden">
+                </div>
+
                 <button id="botButton">Start Bot</button>
+
             </div>
 
         </div>
     </div>
-
 
     <div class="outer index hidden" id="contentGuilds">
         <div class="inner">
@@ -60,7 +71,6 @@
 
         </div>
     </div>
-
 
     <div class="outer index hidden" id="contentCommands">
         <div class="inner">
@@ -80,7 +90,6 @@
         </div>
     </div>
 
-
     <div class="outer index hidden" id="contentEmbeds">
         <div class="inner">
 
@@ -97,7 +106,6 @@
 
         </div>
     </div>
-
 
     <script src="js/index.js"></script>
 

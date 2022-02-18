@@ -9,6 +9,8 @@ let botInfo;
 let indexNavigation = document.getElementById('indexNavigation');
 let body            = document.getElementsByTagName('BODY')[0];
 let botButton       = document.getElementById('botButton');
+let botConsole      = document.getElementById('botConsole');
+let botInfoElem     = document.getElementById('botInfo');
 let navBack         = document.getElementById('navBack');
 let navBot          = document.getElementById('navBot');
 let navGuilds       = document.getElementById('navGuilds');
@@ -48,6 +50,10 @@ window.api.fromMain('invalid-token', (event, arg) => {
     window.location.href = 'login.html';
 });
 
+window.api.fromMain('bot-online', (event, arg) => {
+    botButton.addEventListener('click', killBotButton);
+    botButton.innerHTML = 'Kill Bot';
+})
 
 function selectTab(event, loadDefault = false) {
     if (!loadDefault) {
@@ -77,44 +83,38 @@ function setWindowTitle(string) {
 }
 
 function startBotButton() {
-    window.api.toMain('start-bot', cf.bots[activeBot]);
-    botOnline = true;
-
     botButton.classList.add('online');
-
     botButton.removeEventListener('click', startBotButton);
     botButton.innerHTML = '...';
-    setTimeout( () => {
-        botButton.addEventListener('click', killBotButton);
-        botButton.innerHTML = 'Kill Bot';
-    }, 1500);                               // STOPS PEOPLE BREAKING THINGS
+
+    window.api.toMain('start-bot', cf.bots[activeBot]);
+    botOnline = true;
 }
 
 function displayBotInfo() {
-    let botInfoElem = document.getElementById('botInfo');
-    botInfoElem.innerHTML = `
-        <div id="botAvatarContainer">
-            <img class="avatar" src="${botInfo.avatarURL}">
-        </div>
-        <div id="botTextContainer">
-            <h1>${botInfo.username}</h1>
-            <p>ID: ${botInfo.id}</p>
-            <p>Online: ${new Date(botInfo.readyAt).toLocaleString()}</p>
-        </div>
-    `;
+    document.getElementById('botInfoAvatar').src = botInfo.avatarURL;
+    document.getElementById('botInfoUsername').innerHTML = botInfo.username;
+    document.getElementById('botInfoID').innerHTML = `ID: ${botInfo.id}`;
+    document.getElementById('onlineIndicator').innerHTML = `🟢 Online: ${new Date(botInfo.readyAt).toLocaleString()}`
+    document.getElementById('botInfoHeader').classList.remove('hidden');
+    document.getElementById('botConsole').classList.remove('hidden');
+
     console.log(`[RENDER] displayed bot info for ${botInfo.tag}`);
 }
-
 
 function killBotButton() {
     window.api.toMain('kill-bot', null);
     botButton.removeEventListener('click', killBotButton);
 
+    let onlineIndicator = document.getElementById('onlineIndicator');
+    onlineIndicator.innerHTML = `🔴 Offline: ${new Date().toLocaleString()}`
+
     botButton.innerHTML = '...';
+
     setTimeout( () => {
         botButton.addEventListener('click', startBotButton);
         botButton.innerHTML = 'Start Bot';
-    }, 1500);
+    }, 1500);                                   // STOPS PEOPLE BREAKING THINGS
 
     botButton.classList.remove('online');
     botOnline = false;
@@ -132,6 +132,56 @@ function preventBackIfBotOnline() {
         botOfflineText.firstElementChild.href = 'login.html';
         botOfflineText.style.textDecoration = 'none';
         botOnlineText.classList.add('hidden');
+    }
+}
+
+function botConsoleLog(content, type = "default") {
+    let isScrolledToBottom = botConsole.scrollHeight 
+                           - botConsole.clientHeight 
+                          <= botConsole.scrollTop + 1;
+    botConsole.innerHTML += `<p class=${type}>
+        [${new Date().toLocaleTimeString()}] ${content}
+    </p>`;
+
+    if (isScrolledToBottom) {
+        botConsole.scrollTop = botConsole.scrollHeight 
+                             - botConsole.clientHeight;
+    }
+    
+}
+
+const consoleTest = {
+    error() {
+        botConsoleLog("sample error", type = "error");
+    },
+    success() {
+        botConsoleLog("sample success", type = "success");
+    },
+    warn() {
+        botConsoleLog("sample warning", type = "warn");
+    },
+    default() {
+        botConsoleLog("sample message");
+    },
+    all() {
+        this.default();
+        this.success();
+        this.warn();
+        this.error();
+    },
+    async height(instant = false) {
+        for (let i = 0; i < 100; i++) {
+            if (instant) {
+                botConsoleLog("foo bar baz");
+            } else {
+                await new Promise( (resolve, reject) => {
+                    setTimeout( () => {
+                        botConsoleLog("foo bar baz");
+                        resolve();
+                    }, 1000)
+                });
+            }
+        }
     }
 }
 
