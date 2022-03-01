@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog }   = require('electron');
 const path                                      = require('path');
 const { Client, Intents }                       = require('discord.js');
+const { constants } = require('buffer');
 
 let mainWindow;
 let activeBot = '';
@@ -64,8 +65,6 @@ ipcMain.on('kill-bot', (event, arg) => {
 
 
 function getBotInfo(client) {
-    console.log(client);
-    console.log(client.guilds.cache);
     const botInfo = {
         "avatarURL": "https://cdn.discordapp.com/avatars/" 
                     + client.user.id + "/" + client.user.avatar + ".png",
@@ -88,7 +87,11 @@ function startBot(botObj) {
         mainWindow.webContents.send(
             'get-bot-info',
             getBotInfo(client)
-        )
+        );
+        mainWindow.webContents.send(
+            'get-guild-info',
+            getGuildInfo(client)
+        );
     });
 
     client.login(botObj.token).then( () => {
@@ -125,6 +128,24 @@ function killBot() {
     );
 
     return null;
+}
+
+function getGuildInfo(client) {
+    let guildInfo = new Map();
+    for (let guild of client.guilds.cache) {
+        guild = guild[1];   // guild is a "Collection" [str, Guild]
+        guildInfo.set( guild.id, {
+            id: guild.id,
+            name: guild.name,
+            icon: guild.icon,
+            description: guild.description,
+            nsfwLevel: guild.nsfwLevel,
+            memberCount: guild.memberCount,
+            ownerId: guild.ownerId,
+            preferredLocale: guild.preferredLocale
+        });
+    }
+    return guildInfo;
 }
 
 app.whenReady().then( () => {

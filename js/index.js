@@ -19,7 +19,7 @@ let navEmbeds       = document.getElementById('navEmbeds');
 
 let defaultTab      = {
     target: {
-        id: 'navBot'
+        id: 'navGuilds'
     }
 }
 
@@ -53,6 +53,7 @@ window.api.fromMain('invalid-token', (event, arg) => {
 window.api.fromMain('bot-online', (event, arg) => {
     botButton.addEventListener('click', killBotButton);
     botButton.innerHTML = 'Kill Bot';
+    botConsoleLog("Connected.", type="success");
 })
 
 function selectTab(event, loadDefault = false) {
@@ -82,6 +83,8 @@ function setWindowTitle(string) {
     document.title = string;
 }
 
+/* ------------------------------==≡{ BOT }≡==------------------------------ */
+
 function startBotButton() {
     botButton.classList.add('online');
     botButton.removeEventListener('click', startBotButton);
@@ -99,7 +102,7 @@ function displayBotInfo() {
     document.getElementById('botInfoHeader').classList.remove('hidden');
     document.getElementById('botConsole').classList.remove('hidden');
 
-    console.log(`[RENDER] displayed bot info for ${botInfo.tag}`);
+    console.log(`[RENDER] displayed bot info for ${botInfo.username}`);
 }
 
 function killBotButton() {
@@ -118,6 +121,11 @@ function killBotButton() {
 
     botButton.classList.remove('online');
     botOnline = false;
+
+    botConsoleLog("Disconnected.", type="error");
+
+
+
 }
 
 function preventBackIfBotOnline() {
@@ -184,6 +192,109 @@ const consoleTest = {
         }
     }
 }
+
+/* -----------------------------==≡{ GUILDS }≡==---------------------------- */
+
+let guilds;
+let activeGuild;
+
+function DOMElem(id) {
+    return document.getElementById(id);
+}
+
+window.api.fromMain('get-guild-info', (event, arg) => {
+    guilds = arg;
+    populateGuildList();
+    initialGuildSelect();
+    updateGuildInfo();
+});
+
+function populateGuildList() {
+    clearGuildList();
+    
+    guilds.forEach( (guild) => {
+        DOMElem("guildList").innerHTML +=
+            `
+                <div class="guild" id="${guild.id}">
+                    <div class="guildAvatarContainer">
+                        <img 
+                            class="guildAvatar" 
+                            src="https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png"
+                        >
+                    </div>
+                    <div class="guildTextContainer">
+                        <h1 class="guildName">${guild.name}</h1>
+                    </div>
+                </div>
+            `;
+    });
+
+    DOMElem("guildList").addEventListener('click', guildSelectHandler);
+    console.log(`[RENDER] populated guild list for ${botInfo.username}`);
+}
+
+function initialGuildSelect() {
+    [activeGuild] = guilds.values();
+    DOMElem(activeGuild.id).classList.add("selected");
+}
+
+function updateGuildInfo() {
+    DOMElem("guildAvatar").src              = `https://cdn.discordapp.com/icons/${activeGuild.id}/${activeGuild.icon}.png`;
+    DOMElem("guildName").innerHTML          = activeGuild.name;
+    DOMElem("guildID").innerHTML            = "ID: " + activeGuild.id;
+    DOMElem("guildOwner").innerHTML         = "Owner: " + activeGuild.ownerId;
+    DOMElem("guildMemberCount").innerHTML   = "Members: " + activeGuild.memberCount;
+}
+
+function guildSelectHandler(event) {
+    let elem = event.target;
+
+    if (elem.classList.contains("guildAvatar") 
+     || elem.classList.contains("guildName")  ) {
+        elem = elem.parentElement.parentElement;
+    } else if (elem.classList.contains("guildAvatarContainer") 
+            || elem.classList.contains("guildTextContainer")  ) {
+        elem = elem.parentElement;
+    }
+
+    if ((!elem.classList.contains("guild")) || 
+          elem.classList.contains("selected")) { return; }
+    
+    DOMElem(activeGuild.id).classList.remove("selected"); // deselect previous
+
+    activeGuild = guilds.get(elem.id); // set new
+
+    elem.classList.add("selected"); // select new
+
+    updateGuildInfo();
+
+}
+
+function clearGuildList() {
+    DOMElem("guildList").innerHTML = "";
+    DOMElem("guildList").removeEventListener('click', guildSelectHandler);
+}
+
+function guildListHeightTest(n) {
+    for (let i = 0; i < n; i++) {
+        DOMElem("guildList").innerHTML +=
+            `
+                <div class="guild" id="testGuild-${i}">
+                    <div class="guildAvatarContainer">
+                        <img 
+                            class="guildAvatar" 
+                            src="img/clyde.svg"
+                        >
+                    </div>
+                    <div class="guildTextContainer">
+                        <h1 class="guildName">testGuild-${i}</h1>
+                    </div>
+                </div>
+            `;
+    }
+}
+
+/* ---------------------------==≡{ LISTENERS }≡==--------------------------- */
 
 navBack.addEventListener('click', preventBackIfBotOnline);
 botButton.addEventListener('click', startBotButton);
