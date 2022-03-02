@@ -679,7 +679,7 @@ body.index {
     background-color: var(--background-tertiary);
     border-radius: 10px;
     border-left: 7px solid var(--border-primary);
-    padding: 10px;
+    padding: 20px;
     margin-left: 5px;
     flex-grow: 1;
     height: 100%;
@@ -716,6 +716,25 @@ body.index {
     height: 100%;
 }
 
+#refreshGuilds {
+    text-align: center;
+    justify-content: center;
+    background-color: var(--light-blurple);
+    border-radius: 5px;
+    margin-bottom: 3px;
+    margin-right: 5px;
+    transition: background-color 0.1s linear;
+}
+
+#refreshGuilds:hover {
+    cursor: pointer;
+    background-color: var(--dark-blurple);
+}
+
+#refreshGuilds h1 {
+    font-size: 20px;
+}
+
 .guild {
     display: flex;
     align-items: center;
@@ -723,22 +742,24 @@ body.index {
     background-color: var(--background-tertiary);
     border-radius: 5px;
     margin-bottom: 3px;
-    margin-right: 3px;
+    margin-right: 5px;
     border-left: 5px solid var(--border-primary);
-    transition: background-color 0.2s linear,
-                border-left 0.2s linear;
+    border-right: 5px solid var(--background-tertiary);
+    transition: background-color 0.1s linear,
+                border-left 0.1s linear;
 }
 
 .guild:hover {
     cursor: pointer;
     background-color: var(--border-primary);
     border-left: 5px solid black;
-
+    border-right: 5px solid black;
 }
 
 .guild.selected {
     background-color: var(--palette-3-dark);
     border-left: 5px solid var(--palette-3-light);
+    border-right: 5px solid var(--palette-3-light);
 }
 
 .guildTextContainer {
@@ -746,7 +767,7 @@ body.index {
     justify-content: center;
     margin: 5px;
     flex-grow: 1;
-    padding-right: 24px;
+    padding: 5px;
 }
 
 .guildName {
@@ -764,4 +785,19 @@ body.index {
     width: 48px;
     height: 48px;
     border-radius: 24px;
+}
+
+#leaveGuild {
+    background-color: var(--error-border);
+    color: var(--font-primary);
+    text-align: center;
+    width: 150px;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+
+#leaveGuild:hover {
+    font-weight: bold;
+    cursor: pointer;
 }

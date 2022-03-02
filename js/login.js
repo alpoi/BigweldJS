@@ -13,11 +13,11 @@ for (const bot in cf.bots) {
     updateBotList(cf.bots[bot]);
 }
 
-window.api.fromMain('set-activeBot-async', (event, arg) => {
+window.api.fromMain('set-activeBot', (event, arg) => {
     console.log(arg);
 });
 
-window.api.fromMain('get-activeBot-async', (event, arg) => {
+window.api.fromMain('get-activeBot', (event, arg) => {
     activeBot = arg;
     console.log(`[MAIN] activeBot: ${activeBot}`);
 });
@@ -288,7 +288,7 @@ function hideProceed() {
 }
 
 function clickProceed() {
-    console.log( window.api.toMain('set-activeBot-async', selectedBot) );
+    console.log( window.api.toMain('set-activeBot', selectedBot) );
     window.location.href = 'index.html';
 }
 

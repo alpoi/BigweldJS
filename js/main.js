@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog }   = require('electron');
 const path                                      = require('path');
 const { Client, Intents }                       = require('discord.js');
-const { constants } = require('buffer');
 
 let mainWindow;
 let activeBot = '';
@@ -39,30 +38,12 @@ function createAlertModal(title, message, type = "none") {
 
 ipcMain.on('set-activeBot', (event, arg) => {
     activeBot = arg;
-    event.returnValue = `[MAIN] set activeBot: ${activeBot}`;
-});
-
-ipcMain.on('set-activeBot-async', (event, arg) => {
-    activeBot = arg;
     event.reply('set-activeBot-async', `[MAIN] set activeBot: ${activeBot}`);
 });
 
-ipcMain.on('get-activeBot-async', (event, arg) => {
-    event.reply('get-activeBot-async', activeBot);
-});
-
 ipcMain.on('get-activeBot', (event, arg) => {
-    event.returnValue = activeBot;
+    event.reply('get-activeBot', activeBot);
 });
-
-ipcMain.on('start-bot', (event, arg) => {
-    activeBotClient = startBot(arg);
-});
-
-ipcMain.on('kill-bot', (event, arg) => {
-    activeBotClient = killBot();
-});
-
 
 function getBotInfo(client) {
     const botInfo = {
@@ -75,6 +56,10 @@ function getBotInfo(client) {
     };
     return botInfo;
 }
+
+ipcMain.on('start-bot', (event, arg) => {
+    activeBotClient = startBot(arg);
+});
 
 function startBot(botObj) {
     mainWindow.webContents.send('to-console', `[MAIN] starting ${activeBot}.`);
@@ -118,6 +103,10 @@ function startBot(botObj) {
     return client;
 }
 
+ipcMain.on('kill-bot', (event, arg) => {
+    activeBotClient = killBot();
+});
+
 function killBot() {
     if (!activeBotClient) { return null; }
 
@@ -129,6 +118,10 @@ function killBot() {
 
     return null;
 }
+
+ipcMain.on('get-guild-info', (event, arg) => {
+    event.reply('get-guild-info', getGuildInfo(activeBotClient));
+});
 
 function getGuildInfo(client) {
     let guildInfo = new Map();
@@ -146,6 +139,15 @@ function getGuildInfo(client) {
         });
     }
     return guildInfo;
+}
+
+ipcMain.on('leave-guild', (event, arg) => {
+    leaveGuild(arg);
+});
+
+function leaveGuild(id) {
+    let guild = activeBotClient.guilds.cache.get(id);
+    guild.leave();
 }
 
 app.whenReady().then( () => {

@@ -6,16 +6,20 @@ let botOnline       = false;
 
 let botInfo;
 
-let indexNavigation = document.getElementById('indexNavigation');
+function DOMElem(id) {
+    return document.getElementById(id);
+}
+
+let indexNavigation = DOMElem('indexNavigation');
+let botButton       = DOMElem('botButton');
+let botConsole      = DOMElem('botConsole');
+let botInfoElem     = DOMElem('botInfo');
+let navBack         = DOMElem('navBack');
+let navBot          = DOMElem('navBot');
+let navGuilds       = DOMElem('navGuilds');
+let navCommands     = DOMElem('navCommands');
+let navEmbeds       = DOMElem('navEmbeds');
 let body            = document.getElementsByTagName('BODY')[0];
-let botButton       = document.getElementById('botButton');
-let botConsole      = document.getElementById('botConsole');
-let botInfoElem     = document.getElementById('botInfo');
-let navBack         = document.getElementById('navBack');
-let navBot          = document.getElementById('navBot');
-let navGuilds       = document.getElementById('navGuilds');
-let navCommands     = document.getElementById('navCommands');
-let navEmbeds       = document.getElementById('navEmbeds');
 
 let defaultTab      = {
     target: {
@@ -25,7 +29,9 @@ let defaultTab      = {
 
 selectTab(defaultTab, loadDefault = true);
 
-window.api.fromMain('get-activeBot-async', (event, arg) => {
+window.api.toMain('get-activeBot', null);
+
+window.api.fromMain('get-activeBot', (event, arg) => {
     activeBot = arg;
     console.log(`[MAIN] activeBot: ${activeBot}`)
     setWindowTitle(`BigweldJS • Bot - ${activeBot}`)
@@ -38,8 +44,6 @@ window.api.fromMain('to-console', (event, arg) => {
 window.api.fromMain('error-to-console', (event, arg) => {
     console.error(arg);
 });
-
-window.api.toMain('get-activeBot-async', null);
 
 window.api.fromMain('get-bot-info', (event, arg) => {
     botInfo = arg;
@@ -83,6 +87,9 @@ function setWindowTitle(string) {
     document.title = string;
 }
 
+indexNavigation.addEventListener('click', selectTab);
+navBack.addEventListener('click', preventBackIfBotOnline);
+
 /* ------------------------------==≡{ BOT }≡==------------------------------ */
 
 function startBotButton() {
@@ -93,6 +100,8 @@ function startBotButton() {
     window.api.toMain('start-bot', cf.bots[activeBot]);
     botOnline = true;
 }
+
+botButton.addEventListener('click', startBotButton);
 
 function displayBotInfo() {
     document.getElementById('botInfoAvatar').src = botInfo.avatarURL;
@@ -198,10 +207,6 @@ const consoleTest = {
 let guilds;
 let activeGuild;
 
-function DOMElem(id) {
-    return document.getElementById(id);
-}
-
 window.api.fromMain('get-guild-info', (event, arg) => {
     guilds = arg;
     populateGuildList();
@@ -209,9 +214,16 @@ window.api.fromMain('get-guild-info', (event, arg) => {
     updateGuildInfo();
 });
 
+function refreshGuildList() {
+    console.log("[RENDER] refreshing guild list");
+    window.api.toMain('get-guild-info');
+}
+
 function populateGuildList() {
     clearGuildList();
-    
+
+    DOMElem("guildList").appendChild(createRefreshButton());
+
     guilds.forEach( (guild) => {
         DOMElem("guildList").innerHTML +=
             `
@@ -229,7 +241,9 @@ function populateGuildList() {
             `;
     });
 
-    DOMElem("guildList").addEventListener('click', guildSelectHandler);
+    DOMElem("guildList").classList.remove("hidden");
+    DOMElem("guildInfo").classList.remove("hidden");
+
     console.log(`[RENDER] populated guild list for ${botInfo.username}`);
 }
 
@@ -239,40 +253,64 @@ function initialGuildSelect() {
 }
 
 function updateGuildInfo() {
+    // Update header
     DOMElem("guildAvatar").src              = `https://cdn.discordapp.com/icons/${activeGuild.id}/${activeGuild.icon}.png`;
     DOMElem("guildName").innerHTML          = activeGuild.name;
     DOMElem("guildID").innerHTML            = "ID: " + activeGuild.id;
     DOMElem("guildOwner").innerHTML         = "Owner: " + activeGuild.ownerId;
     DOMElem("guildMemberCount").innerHTML   = "Members: " + activeGuild.memberCount;
+    // Show info if hidden
+    DOMElem("leaveGuild").classList.remove("hidden");
+    DOMElem("guildInfo").classList.remove("hidden");
 }
 
-function guildSelectHandler(event) {
+function guildListClickHandler(event) {
     let elem = event.target;
 
-    if (elem.classList.contains("guildAvatar") 
-     || elem.classList.contains("guildName")  ) {
-        elem = elem.parentElement.parentElement;
-    } else if (elem.classList.contains("guildAvatarContainer") 
-            || elem.classList.contains("guildTextContainer")  ) {
+    while (elem.id != "guildList") {
+        if (elem.id == "refreshGuilds") {
+            refreshGuildList();
+            return;
+        }
+
+        if (elem.classList.contains("guild")) {
+            if (elem.classList.contains("selected")) { return; }
+            
+            if (activeGuild) { // deselect previous
+                DOMElem(activeGuild.id).classList.remove("selected"); 
+            }
+
+            activeGuild = guilds.get(elem.id); // set new
+
+            elem.classList.add("selected"); // select new
+
+            updateGuildInfo();
+            return;
+        }
         elem = elem.parentElement;
     }
+}
 
-    if ((!elem.classList.contains("guild")) || 
-          elem.classList.contains("selected")) { return; }
-    
-    DOMElem(activeGuild.id).classList.remove("selected"); // deselect previous
+DOMElem("guildList").addEventListener('click', guildListClickHandler);
 
-    activeGuild = guilds.get(elem.id); // set new
+function createRefreshButton() {
+    let outerDiv = document.createElement("div");
+    let innerDiv = document.createElement("div");
+    let header = document.createElement("h1");
+    let text = document.createTextNode("Refresh");
 
-    elem.classList.add("selected"); // select new
+    outerDiv.id = "refreshGuilds";
+    innerDiv.classList.add("guildTextContainer");
 
-    updateGuildInfo();
+    header.appendChild(text);
+    innerDiv.appendChild(header);
+    outerDiv.appendChild(innerDiv);
 
+    return outerDiv;
 }
 
 function clearGuildList() {
-    DOMElem("guildList").innerHTML = "";
-    DOMElem("guildList").removeEventListener('click', guildSelectHandler);
+    DOMElem("guildList").innerHTML = " ";
 }
 
 function guildListHeightTest(n) {
@@ -294,11 +332,17 @@ function guildListHeightTest(n) {
     }
 }
 
+function leaveGuildHandler() {
+    window.api.toMain('leave-guild', activeGuild.id);
+    DOMElem(activeGuild.id).remove();
+    activeGuild = null;
+    DOMElem("guildInfo").classList.add("hidden");
+}
+
+DOMElem("leaveGuild").addEventListener('click', leaveGuildHandler);
+
 /* ---------------------------==≡{ LISTENERS }≡==--------------------------- */
 
-navBack.addEventListener('click', preventBackIfBotOnline);
-botButton.addEventListener('click', startBotButton);
-indexNavigation.addEventListener('click', selectTab);
 window.addEventListener('beforeunload', () => {
     window.api.toMain('kill-bot', null);
     window.api.saveConfig(cf)
