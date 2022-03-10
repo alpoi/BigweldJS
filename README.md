@@ -10,6 +10,10 @@ An electron app to simplify discord bot creation for non-tech folk. Created with
 
 <h1>Usage</h1>
 
-I am yet to figure out how `electron-forge` works, so for now you can clone this repo and run `npm start`
+```git clone
+cd BigweldJS
+npm install
+npm start
+```
 
 ---
