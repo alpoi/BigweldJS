@@ -10,7 +10,8 @@ An electron app to simplify discord bot creation for non-tech folk. Created with
 
 <h1>Usage</h1>
 
-```git clone
+```
+git clone
 cd BigweldJS
 npm install
 npm start
